@@ -1,3 +1,3 @@
 # OneText-Builder
 
-![](screenshots\demo.png)
+![](screenshots/demo.png)
