@@ -98,27 +98,32 @@ fun Demo(viewModel: UiState) {
             elevation = 14.dp
         ) {
             Column{
-
-                Column(
-                    modifier = Modifier
-                        .width(300.dp)
-                        .height(140.dp)
-                        .background(Color(0xFFE97A3D)),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "一言",
-                        modifier = Modifier
-                            .padding(8.dp),
-                        fontWeight = FontWeight.W900,
-                        style = MaterialTheme.typography.h4
-                    )
-                }
+                Title()
                 CardContent(viewModel)
             }
             Buttons(viewModel)
         }
+    }
+}
+
+
+@Composable
+fun Title() {
+    Column(
+        modifier = Modifier
+            .width(300.dp)
+            .height(140.dp)
+            .background(Color(0xFFE97A3D)),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "一言",
+            modifier = Modifier
+                .padding(8.dp),
+            fontWeight = FontWeight.W900,
+            style = MaterialTheme.typography.h4
+        )
     }
 }
 
