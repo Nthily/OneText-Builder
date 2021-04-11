@@ -59,7 +59,7 @@ fun Test(viewModel:UiState) {
         refreshingState = viewModel.flag,
         onRefresh = {
             GlobalScope.launch(Dispatchers.Main){
-                viewModel.result = getSentences()
+                viewModel.result = v1Function()
             }
             viewModel.flag = true
         },

@@ -27,7 +27,30 @@ import kotlin.random.Random
 
 @RequiresApi(Build.VERSION_CODES.N)
 
-suspend fun getSentences() = withContext(Dispatchers.IO){
+
+suspend fun v1Function() = withContext(Dispatchers.IO) {
+    val type = "a"
+    val url = URL("https://v1.hitokoto.cn?c=$type")
+    var result = ""
+
+    with(url.openConnection() as HttpURLConnection) {
+        this.requestMethod = "GET"
+        this.setRequestProperty(
+            "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36")
+
+        println("\nSent 'GET' request to URL : $url; Response Code : $responseCode")
+
+        inputStream.bufferedReader().use {
+            it.lines().forEach {
+                val jsonObject = Json.parseToJsonElement(it)
+                result = jsonObject.jsonObject["hitokoto"].toString()
+            }
+        }
+    }
+    return@withContext result.replace("\"", "")
+}
+
+suspend fun v2Function() = withContext(Dispatchers.IO){
 
     val type = "b"
     val url = URL("https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@1.0.56/sentences/$type.json")
