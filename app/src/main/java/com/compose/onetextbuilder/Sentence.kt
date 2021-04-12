@@ -38,7 +38,7 @@ fun getOneText(viewModel:UiState) {
 }
 
 suspend fun v1Function() = withContext(Dispatchers.IO) {
-    val type = "a"
+    val type = "b"
     val url = URL("https://v1.hitokoto.cn?c=$type")
     var result = ""
 
