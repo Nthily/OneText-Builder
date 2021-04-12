@@ -38,6 +38,16 @@ import com.compose.onetextbuilder.ui.theme.OneTextBuilderTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.*
 
 class MainActivity : ComponentActivity() {
 
@@ -47,12 +57,76 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getOneText(viewModel)
         setContent {
             OneTextBuilderTheme {
-                Test(viewModel)
+                val navController = rememberNavController()
+                NavHost(navController, startDestination = "hitokoto") {
+                    composable("hitokoto") {
+                        HomePage(viewModel, navController)
+                    }
+                    /*
+                    composable("favorite") {
+                        Favorite(viewModel, navController)
+                    }
+                    composable("setting"){
+                        Setting(viewModel, navController)
+                    }
+
+                     */
+                }
             }
         }
     }
+}
+
+
+@Composable
+fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
+
+    val items = listOf("Hitokoto", "我喜欢的", "设置")
+
+    BottomNavigation {
+        items.forEachIndexed { index, item ->
+            BottomNavigationItem(
+                icon = {
+                    when(true) {
+                        index == 0 -> Icon(Icons.Filled.Home, contentDescription = null)
+                        index == 1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
+                        else -> Icon(Icons.Filled.Settings, contentDescription = null)
+                    }
+                },
+                label = { Text(item) },
+                selected = viewModel.selectedItem == index,
+                onClick = {
+                    viewModel.selectedItem = index
+                    // TODO:导航代码
+                    viewModel.currentPage = item
+                }
+            )
+        }
+    }
+}
+
+
+@ExperimentalAnimationApi
+@RequiresApi(Build.VERSION_CODES.N)
+@Composable
+fun HomePage(viewModel: UiState,
+             navController: NavHostController) {
+    Scaffold(
+        content = {
+            when(true) {
+                viewModel.selectedItem == 0 -> Test(viewModel)
+                viewModel.selectedItem == 1 -> Favorite(viewModel, navController)
+                else -> Setting(viewModel, navController)
+            }
+        },
+        bottomBar = {
+            BottomNavigation(viewModel, navController)
+        }
+    )
+
 }
 
 @ExperimentalAnimationApi
@@ -85,7 +159,7 @@ fun Test(viewModel:UiState) {
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun Demo(viewModel: UiState) {
-    getOneText(viewModel)
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -105,7 +179,7 @@ fun Demo(viewModel: UiState) {
                 CardContent(viewModel)
             }
             Row(modifier = Modifier.fillMaxSize(),verticalAlignment = Alignment.Bottom){
-                Tags(viewModel)
+            //    Tags(viewModel)
                 Buttons(viewModel)
             }
         }
@@ -122,7 +196,7 @@ fun Tags(viewModel: UiState) {
             shape = RoundedCornerShape(8.dp)
         ) {
             Text("默认", modifier = Modifier
-                .clickable{}
+                .clickable {}
                 .padding(5.dp))
         }
     }
