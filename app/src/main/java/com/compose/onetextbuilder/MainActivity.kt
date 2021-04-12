@@ -62,6 +62,7 @@ fun Test(viewModel:UiState) {
         onRefresh = {
             GlobalScope.launch(Dispatchers.Main){
                 viewModel.result = v1Function()
+                viewModel.enableRed = false
             }
             viewModel.flag = true
         },
@@ -186,7 +187,6 @@ fun Buttons(viewModel: UiState) {
         verticalAlignment = Alignment.Bottom
     ){
 
-        var flag by remember{ mutableStateOf(true) }
 
         var change by remember{ mutableStateOf(false)}
 
@@ -202,14 +202,14 @@ fun Buttons(viewModel: UiState) {
         val context = LocalContext.current
         IconButton(
             onClick = {
-                flag = !flag
+                viewModel.enableRed = !viewModel.enableRed
                 change = true
             }
         ) {
             CompositionLocalProvider(
                 LocalContentColor provides when(true) {
-                flag -> Color(0xFF757575)
-                else -> Color.Red
+                viewModel.enableRed -> Color.Red
+                else -> Color(0xFF757575)
             }) {
                 Icon(Icons.Rounded.Favorite,
                     null,

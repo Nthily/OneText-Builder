@@ -10,4 +10,5 @@ class UiState: ViewModel() {
     var result by mutableStateOf("")
     var flag by mutableStateOf(false)
 
+    var enableRed by mutableStateOf(false)
 }
