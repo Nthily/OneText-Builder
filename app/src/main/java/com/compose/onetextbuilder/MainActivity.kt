@@ -182,7 +182,7 @@ fun CardContent(viewModel:UiState) {
                 .padding(start = 20.dp, end = 20.dp),
             style = MaterialTheme.typography.subtitle2
         )
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
         AnimatedVisibility(visible = viewModel.result!="") {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -209,7 +209,7 @@ fun Buttons(viewModel: UiState) {
 
         val buttonSize by animateDpAsState(
             targetValue = if(change) 32.dp else 24.dp,
-            animationSpec = tween(150)
+            animationSpec = tween(120)
         )
 
         if(buttonSize == 32.dp) {
