@@ -51,5 +51,6 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun Setting(viewModel:UiState, navController: NavHostController) {
+
     Text("setting")
 }

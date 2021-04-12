@@ -6,6 +6,8 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
@@ -13,11 +15,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
@@ -32,12 +32,13 @@ import kotlin.random.Random
 
 fun getOneText(viewModel:UiState) {
     GlobalScope.launch(Dispatchers.Main){
-        viewModel.result = v1Function()
+        viewModel.result = v1Function(viewModel)
         viewModel.enableRed = false
     }
 }
 
-suspend fun v1Function() = withContext(Dispatchers.IO) {
+@RequiresApi(Build.VERSION_CODES.N)
+suspend fun v1Function(viewModel: UiState) = withContext(Dispatchers.IO) {
     val type = "b"
     val url = URL("https://v1.hitokoto.cn?c=$type")
     var result = ""
@@ -49,11 +50,17 @@ suspend fun v1Function() = withContext(Dispatchers.IO) {
 
         println("\nSent 'GET' request to URL : $url; Response Code : $responseCode")
 
-        inputStream.bufferedReader().use {
-            it.lines().forEach {
-                val jsonObject = Json.parseToJsonElement(it)
-                result = jsonObject.jsonObject["hitokoto"].toString()
+        if(responseCode == 200) {
+            inputStream.bufferedReader().use {
+                it.lines().forEach {
+                    val jsonObject = Json.parseToJsonElement(it)
+                    result = jsonObject.jsonObject["hitokoto"].toString()
+                }
             }
+            viewModel.flag = false
+        } else {
+            result = "哎呀，也许网站出了点问题"
+            viewModel.flag = false
         }
     }
     return@withContext result.replace("\"", "")
@@ -94,4 +101,14 @@ fun startShare(context: Context, message:String) {
     }
     val shareIntent = Intent.createChooser(sendIntent, "选择分享到哪里吧 ~")
     startActivity(context, shareIntent, Bundle())
+}
+
+
+fun getNetWorkState(context: Context, viewModel: UiState):Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+    val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+    Log.d(TAG, "你的网络状态是::::: + $isConnected")
+    return isConnected
+
 }

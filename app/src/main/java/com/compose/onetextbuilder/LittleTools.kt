@@ -1,8 +1,10 @@
 package com.compose.onetextbuilder
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -46,11 +49,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.text.AnnotatedString
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.*
 
-
-@Composable
-fun Favorite(viewModel:UiState, navController: NavHostController) {
-
-    Text("favorite")
-}

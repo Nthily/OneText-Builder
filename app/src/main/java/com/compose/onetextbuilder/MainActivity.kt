@@ -1,8 +1,11 @@
 package com.compose.onetextbuilder
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,6 +42,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -46,24 +52,34 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel:UiState by viewModels()
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     @ExperimentalAnimationApi
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getOneText(viewModel)
+
+
         setContent {
+
             OneTextBuilderTheme {
                 val navController = rememberNavController()
+                val context = LocalContext.current
+                GlobalScope.launch (Dispatchers.IO){
+                    if(getNetWorkState(context, viewModel)) getOneText(viewModel)
+                }
+
                 NavHost(navController, startDestination = "hitokoto") {
                     composable("hitokoto") {
-                        HomePage(viewModel, navController)
+                        HomePage(viewModel, navController, context)
                     }
                     /*
                     composable("favorite") {
@@ -102,6 +118,7 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
                     viewModel.selectedItem = index
                     // TODO:导航代码
                     viewModel.currentPage = item
+                    if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
                 }
             )
         }
@@ -113,11 +130,13 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun HomePage(viewModel: UiState,
-             navController: NavHostController) {
+             navController: NavHostController,
+             context: Context) {
+
     Scaffold(
         content = {
             when(true) {
-                viewModel.selectedItem == 0 -> Test(viewModel)
+                viewModel.selectedItem == 0 -> RefreshLayout(viewModel, context)
                 viewModel.selectedItem == 1 -> Favorite(viewModel, navController)
                 else -> Setting(viewModel, navController)
             }
@@ -132,13 +151,23 @@ fun HomePage(viewModel: UiState,
 @ExperimentalAnimationApi
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
-fun Test(viewModel:UiState) {
+fun RefreshLayout(viewModel:UiState,context: Context) {
 
     SwipeToRefreshLayout(
         refreshingState = viewModel.flag,
         onRefresh = {
-            getOneText(viewModel)
             viewModel.flag = true
+
+            if(getNetWorkState(context, viewModel)) {
+                getOneText(viewModel)
+            }
+            else {
+                viewModel.result = "暂时还没有网络连接哟~"
+                GlobalScope.launch(Dispatchers.IO){
+                    delay(500)
+                    viewModel.flag = false
+                }
+            }
         },
         refreshIndicator = {
             Surface(elevation = 10.dp, shape = CircleShape) {
@@ -158,7 +187,7 @@ fun Test(viewModel:UiState) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
-fun Demo(viewModel: UiState) {
+fun Demo(viewModel: UiState)   {
 
     Column(
         modifier = Modifier
@@ -174,7 +203,11 @@ fun Demo(viewModel: UiState) {
             color = Color.White,
             elevation = 14.dp
         ) {
-            Column{
+            Column(
+                modifier = Modifier.clickable{
+
+                }
+            ){
                 Title()
                 CardContent(viewModel)
             }
@@ -227,10 +260,7 @@ fun Title() {
 fun CardContent(viewModel:UiState) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .clickable {
-
-            },
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -244,18 +274,21 @@ fun CardContent(viewModel:UiState) {
             }
         }
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(fontWeight = FontWeight.W900, color = Color.Black)
-                ) {
-                    append(viewModel.result)
-                }
-            },
-            modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp),
-            style = MaterialTheme.typography.subtitle2
-        )
+        SelectionContainer{
+            Text(
+                buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(fontWeight = FontWeight.W900, color = Color.Black, fontSize = 18.sp)
+                    ) {
+                        append(viewModel.result)
+                    }
+                },
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp)
+                    .verticalScroll(rememberScrollState()),
+                style = MaterialTheme.typography.subtitle2
+            )
+        }
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
         AnimatedVisibility(visible = viewModel.result!="") {
             Column(
