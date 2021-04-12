@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat.startActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -27,6 +29,13 @@ import kotlin.random.Random
 
 @RequiresApi(Build.VERSION_CODES.N)
 
+
+fun getOneText(viewModel:UiState) {
+    GlobalScope.launch(Dispatchers.Main){
+        viewModel.result = v1Function()
+        viewModel.enableRed = false
+    }
+}
 
 suspend fun v1Function() = withContext(Dispatchers.IO) {
     val type = "a"
