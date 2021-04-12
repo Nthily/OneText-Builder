@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -183,19 +185,35 @@ fun Buttons(viewModel: UiState) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.Bottom
     ){
+
         var flag by remember{ mutableStateOf(true) }
+
+        var change by remember{ mutableStateOf(false)}
+
+        val buttonSize by animateDpAsState(
+            targetValue = if(change) 32.dp else 24.dp,
+            animationSpec = tween(150)
+        )
+
+        if(buttonSize == 32.dp) {
+            change = false
+        }
+
         val context = LocalContext.current
         IconButton(
             onClick = {
                 flag = !flag
-            },
+                change = true
+            }
         ) {
             CompositionLocalProvider(
                 LocalContentColor provides when(true) {
                 flag -> Color(0xFF757575)
                 else -> Color.Red
             }) {
-                Icon(Icons.Rounded.Favorite, null)
+                Icon(Icons.Rounded.Favorite,
+                    null,
+                    modifier = Modifier.size(buttonSize))
             }
         }
 
