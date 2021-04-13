@@ -39,7 +39,7 @@ fun getOneText(viewModel:UiState) {
 
 @RequiresApi(Build.VERSION_CODES.N)
 suspend fun v1Function(viewModel: UiState) = withContext(Dispatchers.IO) {
-    val type = "b"
+    val type = "a"
     val url = URL("https://v1.hitokoto.cn?c=$type")
     var result = ""
 
