@@ -14,8 +14,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -42,9 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -52,6 +51,9 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -102,25 +104,33 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
 
     val items = listOf("Hitokoto", "我喜欢的", "设置")
 
-    BottomNavigation {
-        items.forEachIndexed { index, item ->
-            BottomNavigationItem(
-                icon = {
-                    when(true) {
-                        index == 0 -> Icon(Icons.Filled.Home, contentDescription = null)
-                        index == 1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
-                        else -> Icon(Icons.Filled.Settings, contentDescription = null)
+    Surface(
+        shape = CircleShape,
+        modifier = Modifier
+            .padding(28.dp)
+    ){
+        BottomNavigation(
+            elevation = 10.dp
+        ) {
+            items.forEachIndexed { index, item ->
+                BottomNavigationItem(
+                    icon = {
+                        when(true) {
+                            index == 0 -> Icon(Icons.Filled.Home, contentDescription = null)
+                            index == 1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
+                            else -> Icon(Icons.Filled.Settings, contentDescription = null)
+                        }
+                    },
+                    //  label = { Text(item) },
+                    selected = viewModel.selectedItem == index,
+                    onClick = {
+                        viewModel.selectedItem = index
+                        // TODO:导航代码
+                        viewModel.currentPage = item
+                        if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
                     }
-                },
-                label = { Text(item) },
-                selected = viewModel.selectedItem == index,
-                onClick = {
-                    viewModel.selectedItem = index
-                    // TODO:导航代码
-                    viewModel.currentPage = item
-                    if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
-                }
-            )
+                )
+            }
         }
     }
 }
@@ -183,6 +193,7 @@ fun RefreshLayout(viewModel:UiState,context: Context) {
 }
 
 
+
 @ExperimentalAnimationApi
 @SuppressLint("CoroutineCreationDuringComposition")
 @RequiresApi(Build.VERSION_CODES.N)
@@ -210,12 +221,25 @@ fun Demo(viewModel: UiState)   {
             ){
                 Title()
                 CardContent(viewModel)
+                CardContent(viewModel)
             }
             Row(modifier = Modifier.fillMaxSize(),verticalAlignment = Alignment.Bottom){
-            //    Tags(viewModel)
+                //Shiro()
                 Buttons(viewModel)
             }
         }
+    }
+}
+
+@Composable
+fun Shiro() {
+    Surface(
+        modifier = Modifier
+            .size(60.dp)
+    ){
+        Image(painter = painterResource(id = R.drawable.shiro),
+            contentDescription = null,
+            contentScale = ContentScale.Crop)
     }
 }
 
@@ -241,7 +265,7 @@ fun Title() {
         modifier = Modifier
             .width(300.dp)
             .height(140.dp)
-            .background(Color(0xFFE97A3D)),
+            .background(Color(0xFFBED4D0)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
