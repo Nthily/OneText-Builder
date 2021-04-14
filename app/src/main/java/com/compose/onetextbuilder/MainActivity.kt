@@ -268,7 +268,7 @@ fun Title() {
         modifier = Modifier
             .width(300.dp)
             .height(140.dp)
-            .background(Color(0xFFBED4D0)),
+            .background(Color(0xFF80C6F6)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

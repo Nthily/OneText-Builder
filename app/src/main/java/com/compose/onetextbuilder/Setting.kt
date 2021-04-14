@@ -103,7 +103,7 @@ fun UserInfo(){
             modifier = Modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
-            color = Color(0xFFC6D4BE)
+            color = Color(0xFF80C6F6)
         ) {
             Row(
                 modifier = Modifier.padding(10.dp)
