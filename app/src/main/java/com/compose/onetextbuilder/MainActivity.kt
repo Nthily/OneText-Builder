@@ -107,10 +107,11 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
     Surface(
         shape = CircleShape,
         modifier = Modifier
-            .padding(28.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
     ){
         BottomNavigation(
-            elevation = 10.dp
+            elevation = 10.dp,
+            backgroundColor = Color.White
         ) {
             items.forEachIndexed { index, item ->
                 BottomNavigationItem(

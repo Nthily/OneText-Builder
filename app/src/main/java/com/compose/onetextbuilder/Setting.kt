@@ -46,14 +46,14 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 
 
+@ExperimentalAnimationApi
 @Composable
 fun Setting(viewModel:UiState, navController: NavHostController) {
     Column(
@@ -67,9 +67,10 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
                 .width(350.dp)
-                .wrapContentHeight(),
+                .height(640.dp),
             color = Color.White,
-            elevation = 14.dp
+            elevation = 10.dp,
+            border = BorderStroke(3.dp, Color(0xFF80C6F6))
         ){
             LazyColumn() {
                 item{
@@ -77,8 +78,11 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
                         modifier = Modifier.padding(15.dp)
                     ) {
                         UserInfo()
-                        CardSpacer()
-                        TextCategory()
+                        CardItemSpacer()
+                        TextCategory(viewModel)
+                        UserInfo()
+                        UserInfo()
+                        UserInfo()
                     }
                 }
             }
@@ -87,9 +91,8 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
 }
 
 @Composable
-fun CardSpacer() {
-  //  Divider(thickness = 2.dp, modifier = Modifier.padding(top = 18.dp, bottom = 18.dp))
-    Spacer(modifier = Modifier.padding(vertical = 18.dp))
+fun CardItemSpacer() {
+    Spacer(modifier = Modifier.padding(vertical = 10.dp))
 }
 
 @Composable
@@ -98,7 +101,7 @@ fun UserInfo(){
         Text(text = "设置中心",
             fontWeight = FontWeight.W900,
             style = MaterialTheme.typography.h5)
-        Spacer(Modifier.padding(vertical = 8.dp))
+        CardItemSpacer()
         Surface(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -132,47 +135,84 @@ fun TextListSpacer() {
     Divider(thickness = 2.dp, modifier = Modifier.padding(top = 12.dp, bottom = 12.dp))
 }
 
+@ExperimentalAnimationApi
 @Composable
-fun TextCategory() {
-    Column() {
-        Text(text = "句子类型",
-            fontWeight = FontWeight.W900,
-            style = MaterialTheme.typography.body1)
-        Spacer(Modifier.padding(vertical = 8.dp))
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            CategoryList()
+fun TextCategory(viewModel: UiState) {
+
+    Column{
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(text = "句子类型",
+                fontWeight = FontWeight.W900,
+                style = MaterialTheme.typography.body1)
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = {
+                    viewModel.textListSwitch = !viewModel.textListSwitch
+                },
+                    modifier = Modifier.align(Alignment.End)) {
+                    Icon(painterResource(id = R.drawable.expand_more_black_24dp), null)
+                }
+            }
         }
+        Spacer(Modifier.padding(vertical = 2.dp))
+        CategoryList(viewModel)
     }
 }
 
 @Composable
-fun CategoryList(){
-    val textType = listOf(
-        "全部",
-        "动漫",
-        "漫画",
-        "网络",
-        "文学",
-        "哲学",
-        "其他")
+fun CategoryList(viewModel: UiState){
+    val normalModifier = 0.dp
+    val expandModifier = 700.dp
 
-    textType.forEach{
-        Row {
-            val checkedState = remember { mutableStateOf(true) }
-            Text(it)
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Switch(
-                    checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it },
-                    colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFF80C6F6)),
-                    modifier = Modifier.align(Alignment.End)
-                )
+    val animatedHeight by animateDpAsState(
+        targetValue = (if(viewModel.textListSwitch) expandModifier else normalModifier),
+        animationSpec = tween(500)
+    )
+
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+
+    ) {
+        val textType = listOf(
+            "动漫",
+            "漫画",
+            "游戏",
+            "文学",
+            "原创",
+            "网络",
+            "其他",
+            "影视",
+            "诗词",
+            "网易云",
+            "哲学",
+            "抖机灵")
+
+        textType.forEach{
+            Row(
+                modifier = Modifier.wrapContentHeight(),
+                verticalAlignment = CenterVertically
+            ){
+                val checkedState = remember { mutableStateOf(true) }
+                Text(it)
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Switch(
+                        checked = checkedState.value,
+                        onCheckedChange = { checkedState.value = it },
+                        colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFF80C6F6)),
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
             }
+            TextListSpacer()
         }
-        TextListSpacer()
     }
 }

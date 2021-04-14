@@ -16,5 +16,5 @@ class UiState: ViewModel() {
 
     var currentPage by mutableStateOf("hitokoto")
 
-
+    var textListSwitch by mutableStateOf(false)
 }
