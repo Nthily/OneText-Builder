@@ -142,14 +142,14 @@ fun TextCategory() {
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-            TextType()
+            CategoryList()
         }
     }
 }
 
 @Composable
-fun TextType(){
-    val radioOptions = listOf(
+fun CategoryList(){
+    val textType = listOf(
         "全部",
         "动漫",
         "漫画",
@@ -158,27 +158,17 @@ fun TextType(){
         "哲学",
         "其他")
 
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0] ) }
-    radioOptions.forEach{
-        Row(
-            Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .selectable(
-                    selected = (it == selectedOption),
-                    onClick = {
-
-                    }
-                )
-        ) {
-            Text(text = it,
-                style = MaterialTheme.typography.body1)
+    textType.forEach{
+        Row {
+            val checkedState = remember { mutableStateOf(true) }
+            Text(it)
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                RadioButton(
-                    selected = (it == selectedOption),
-                    onClick = { onOptionSelected(it) },
+                Switch(
+                    checked = checkedState.value,
+                    onCheckedChange = { checkedState.value = it },
+                    colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFF80C6F6)),
                     modifier = Modifier.align(Alignment.End)
                 )
             }

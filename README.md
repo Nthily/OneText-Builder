@@ -5,4 +5,10 @@
 ### Api: [hitokoto-api](https://github.com/hitokoto-osc/hitokoto-api)
 
 
-![](screenshots/demo.png)
+## 目前进度
+
+
+| screenshot | screenshot |
+| ---------- | ---------- |
+| ![](screenshots/demo.png) | ![](screenshots/demo2.png) |
+
