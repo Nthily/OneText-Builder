@@ -128,7 +128,9 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
                         // TODO:导航代码
                         viewModel.currentPage = item
                         if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
-                    }
+                    },
+                    unselectedContentColor = Color(0xFFDBDDEB),
+                    selectedContentColor = Color(0xFF1234FD)
                 )
             }
         }
@@ -153,7 +155,8 @@ fun HomePage(viewModel: UiState,
         },
         bottomBar = {
             BottomNavigation(viewModel, navController)
-        }
+        },
+        backgroundColor = Color(0xFFF4F6FC)
     )
 
 }
