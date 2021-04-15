@@ -128,7 +128,7 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
                     if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
                 },
                 unselectedContentColor = Color(0xFFDBDDEB),
-                selectedContentColor = Color(0xFF1234FD)
+                selectedContentColor = Color(0xFF80C6F6)
             )
         }
     }
