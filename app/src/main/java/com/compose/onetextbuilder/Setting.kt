@@ -79,7 +79,7 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
                 ) {
                     UserInfo()
                     CardItemSpacer()
-                    TextCategory(viewModel)
+                    SentenceCategory(viewModel)
                 }
             }
         }
@@ -119,7 +119,7 @@ fun UserInfo(){
 
 @ExperimentalAnimationApi
 @Composable
-fun TextCategory(viewModel: UiState) {
+fun SentenceCategory(viewModel: UiState) {
 
     Column{
         Row(
@@ -128,9 +128,7 @@ fun TextCategory(viewModel: UiState) {
                 .wrapContentHeight(),
             verticalAlignment = CenterVertically
         ){
-            Text(text = "句子类型",
-                fontWeight = FontWeight.W900,
-                style = MaterialTheme.typography.h6)
+            SubSettingTitle("句子类型")
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -215,6 +213,13 @@ fun CardItemSpacer() {
 @Composable
 fun TextListSpacer() {
     Divider(thickness = 2.dp, modifier = Modifier.padding(top = 12.dp, bottom = 12.dp))
+}
+
+@Composable
+fun SubSettingTitle(titleName:String) {
+    Text(text = titleName,
+        fontWeight = FontWeight.W900,
+        style = MaterialTheme.typography.h6)
 }
 
 @Composable
