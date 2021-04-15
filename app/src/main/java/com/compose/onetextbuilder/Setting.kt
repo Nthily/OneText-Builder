@@ -109,7 +109,7 @@ fun UserInfo(){
                 Text(text = "香辣鸡腿堡",
                     fontWeight = FontWeight.W900,
                     style = MaterialTheme.typography.body1,
-                    modifier = Modifier.align(Alignment.CenterVertically))
+                    modifier = Modifier.align(CenterVertically))
             }
         }
     }
@@ -126,11 +126,11 @@ fun TextCategory(viewModel: UiState) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = CenterVertically
         ){
             Text(text = "句子类型",
                 fontWeight = FontWeight.W900,
-                style = MaterialTheme.typography.body1)
+                style = MaterialTheme.typography.h6)
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
