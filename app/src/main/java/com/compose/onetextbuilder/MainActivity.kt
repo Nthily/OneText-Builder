@@ -54,6 +54,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -225,7 +227,7 @@ fun Demo(viewModel: UiState)   {
             ){
                 Title()
                 CardContent(viewModel)
-                CardContent(viewModel)
+
             }
             Row(modifier = Modifier.fillMaxSize(),verticalAlignment = Alignment.Bottom){
                 //Shiro()
@@ -306,7 +308,12 @@ fun CardContent(viewModel:UiState) {
             Text(
                 buildAnnotatedString {
                     withStyle(
-                        style = SpanStyle(fontWeight = FontWeight.W900, color = Color.Black, fontSize = 18.sp)
+                        style = SpanStyle(fontWeight = FontWeight.W300,
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.zoolkuaile)
+                            ))
                     ) {
                         append(viewModel.result)
                     }
@@ -314,7 +321,7 @@ fun CardContent(viewModel:UiState) {
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp)
                     .verticalScroll(rememberScrollState()),
-                style = MaterialTheme.typography.subtitle2
+                style = MaterialTheme.typography.subtitle2,
             )
         }
         Spacer(modifier = Modifier.padding(vertical = 10.dp))

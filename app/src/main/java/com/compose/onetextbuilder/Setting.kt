@@ -48,6 +48,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 
 
@@ -79,7 +81,8 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
                 ) {
                     UserInfo()
                     CardItemSpacer()
-                    SentenceCategory(viewModel)
+                    SentenceCategory()
+                    FontFamily()
                 }
             }
         }
@@ -87,12 +90,38 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
 }
 
 
+
+@Composable
+fun Search() {
+    var text by remember{ mutableStateOf("")}
+    TextField(value = text, onValueChange = {
+        text = it
+    },
+        leadingIcon = {
+            Icon(Icons.Filled.Search, null)
+        },
+        placeholder = {
+            Text("搜索")
+        },
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
+    )
+
+}
+
 @Composable
 fun UserInfo(){
     Column {
         Text(text = "设置中心",
             fontWeight = FontWeight.W900,
             style = MaterialTheme.typography.h5)
+        CardItemSpacer()
+        Search()
         CardItemSpacer()
         CardBackgroundStyle{
             Row(
@@ -116,48 +145,25 @@ fun UserInfo(){
 }
 
 
-
 @ExperimentalAnimationApi
 @Composable
-fun SentenceCategory(viewModel: UiState) {
-
-    Column{
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            verticalAlignment = CenterVertically
-        ){
-            SubSettingTitle("句子类型")
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                IconButton(onClick = {
-                    viewModel.textListSwitch = !viewModel.textListSwitch
-                },
-                    modifier = Modifier.align(Alignment.End)) {
-                    Icon(painterResource(id = R.drawable.expand_more_black_24dp), null)
-                }
-            }
-        }
-        Spacer(Modifier.padding(vertical = 2.dp))
+fun SentenceCategory() {
+    SettingItem(
+        itemName = "句子类型",
+        expandHeight = 550.dp,
+    ){
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-            CategoryList(viewModel)
+            CategoryList(it)
         }
     }
+
 }
 
 @Composable
-fun CategoryList(viewModel: UiState){
-    val normalModifier = 0.dp
-    val expandModifier = 550.dp
+fun CategoryList(height:Dp){
 
-    val animatedHeight by animateDpAsState(
-        targetValue = (if(viewModel.textListSwitch) expandModifier else normalModifier),
-        animationSpec = tween(800)
-    )
     val textType = listOf(
         "动漫",
         "漫画",
@@ -176,7 +182,7 @@ fun CategoryList(viewModel: UiState){
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .height(animatedHeight)
+            .height(height)
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -203,6 +209,51 @@ fun CategoryList(viewModel: UiState){
         }
     }
 }
+
+
+@Composable
+fun FontFamily(){
+    SettingItem(
+        itemName = "字体选择",
+        expandHeight = 300.dp,
+    ){
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .height(it)
+        ) {
+            Text(
+                text = "1. 展示字体",
+                fontFamily = androidx.compose.ui.text.font.FontFamily(
+                    Font(R.font.zoolkuaile)
+                ),
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                text = "1. 展示字体",
+                fontFamily = androidx.compose.ui.text.font.FontFamily(
+                    Font(R.font.zoolkuaile)
+                ),
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                text = "1. 展示字体",
+                fontFamily = androidx.compose.ui.text.font.FontFamily(
+                    Font(R.font.zoolkuaile)
+                ),
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                text = "1. 展示字体",
+                fontFamily = androidx.compose.ui.text.font.FontFamily(
+                    Font(R.font.zoolkuaile)
+                ),
+                style = MaterialTheme.typography.body1
+            )
+        }
+    }
+}
+
 
 
 @Composable
@@ -233,5 +284,48 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
         elevation = 14.dp
     ) {
         content()
+    }
+}
+
+@Composable
+fun SettingItem(
+    itemName:String,
+    normalHeight: Dp = 0.dp,
+    expandHeight: Dp,
+    content: @Composable()(animatedHeight:Dp) -> Unit
+) {
+
+    val itemButtonState = remember{ mutableStateOf(false)}
+
+    val animatedHeight by animateDpAsState(
+        targetValue = (if(itemButtonState.value) expandHeight else normalHeight),
+        animationSpec = tween(500)
+    )
+
+    Column{
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalAlignment = CenterVertically
+        ){
+            SubSettingTitle(itemName)
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = {
+                    itemButtonState.value = !itemButtonState.value
+                },
+                    modifier = Modifier.align(Alignment.End)) {
+                    if(itemButtonState.value){
+                        Icon(painterResource(id = R.drawable.expand_less_black_24dp), null)
+                    } else {
+                        Icon(painterResource(id = R.drawable.expand_more_black_24dp), null)
+                    }
+                }
+            }
+        }
+        Spacer(Modifier.padding(vertical = 2.dp))
+        content(animatedHeight)
     }
 }
