@@ -49,230 +49,103 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 
-/*
-
-@ExperimentalAnimationApi
 @Composable
-fun Setting() {
+fun Setting(){
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 35.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize(),
     ) {
-        Surface(
-            shape = RoundedCornerShape(14.dp),
-            modifier = Modifier
-                .width(350.dp)
-                .height(640.dp),
-            color = Color.White,
-            elevation = 10.dp,
-            border = BorderStroke(3.dp, Color(0xFF80C6F6))
-        ){
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Column(
-                    modifier = Modifier.padding(15.dp)
-                ) {
-                    UserInfo()
-                    CardItemSpacer()
-                    SentenceCategory()
-                    FontFamily()
-                }
-            }
-        }
+        UserInfo()
+        SimpleSettingList()
     }
 }
 
-
-
-@Composable
-fun Search() {
-    var text by remember{ mutableStateOf("")}
-    TextField(value = text, onValueChange = {
-        text = it
-    },
-        leadingIcon = {
-            Icon(Icons.Filled.Search, null)
-        },
-        placeholder = {
-            Text("搜索")
-        },
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        )
-    )
-
-}
 
 @Composable
 fun UserInfo(){
-    Column {
-        Text(text = "设置中心",
-            fontWeight = FontWeight.W900,
-            style = MaterialTheme.typography.h5)
-        CardItemSpacer()
-        Search()
-        CardItemSpacer()
-        CardBackgroundStyle{
-            Row(
-                modifier = Modifier.padding(10.dp)
-            ){
-                Surface(
-                    shape = CircleShape,
-                    modifier = Modifier
-                        .size(45.dp)
-                ) {
-                    Image(painter = painterResource(id = R.drawable.shiro), contentDescription = null)
-                }
-                Spacer(Modifier.padding(horizontal = 5.dp))
-                Text(text = "香辣鸡腿堡",
-                    fontWeight = FontWeight.W900,
-                    style = MaterialTheme.typography.body1,
-                    modifier = Modifier.align(CenterVertically))
-            }
-        }
-    }
-}
-
-
-@ExperimentalAnimationApi
-@Composable
-fun SentenceCategory() {
-    SettingItem(
-        itemName = "句子类型",
-        expandHeight = 550.dp,
-    ){
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            CategoryList(it)
-        }
-    }
-
-}
-
-@Composable
-fun CategoryList(height:Dp){
-
-    val textType = listOf(
-        "动漫",
-        "漫画",
-        "游戏",
-        "文学",
-        "原创",
-        "网络",
-        "其他",
-        "影视",
-        "诗词",
-        "网易云",
-        "哲学",
-        "抖机灵"
-    )
-
-    Column(
+    Surface(
         modifier = Modifier
-            .padding(8.dp)
-            .height(height)
-            .verticalScroll(rememberScrollState())
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        shape = RoundedCornerShape(bottomStart = 65.dp, bottomEnd = 65.dp),
+        elevation = 14.dp
     ) {
-
-        textType.forEach{
-            Row(
-                modifier = Modifier.wrapContentHeight(),
-                verticalAlignment = CenterVertically
-            ){
-                val checkedState = remember { mutableStateOf(true) }
-                Text(it)
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Switch(
-                        checked = checkedState.value,
-                        onCheckedChange = { checkedState.value = it },
-                        colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFF80C6F6)),
-                        modifier = Modifier.align(Alignment.End),
-                        interactionSource = MutableInteractionSource()
-                    )
-                }
+        Row(
+            modifier = Modifier
+                .background(Color(0xFF80C6F6))
+                .padding(25.dp)
+                .height(100.dp),
+            verticalAlignment = CenterVertically
+        ){
+            Surface(
+                shape = CircleShape,
+                modifier = Modifier
+                    .size(65.dp)
+            ) {
+                Image(painterResource(id = R.drawable.shiro), null)
             }
-            TextListSpacer()
+            Spacer(Modifier.padding(horizontal = 8.dp))
+            Column() {
+                Text(
+                    text = "香辣鸡腿堡",
+                    fontWeight = FontWeight.W900,
+                    style = MaterialTheme.typography.subtitle1
+                )
+                Spacer(modifier = Modifier.padding(vertical = 8.dp))
+                Text(
+                    text = "￥114514",
+                    fontWeight = FontWeight.W900,
+                    style = MaterialTheme.typography.body2,
+                    color = Color.White
+                )
+            }
         }
     }
+    CardItemSpacer()
 }
 
 
 @Composable
-fun FontFamily(){
-    SettingItem(
-        itemName = "字体选择",
-        expandHeight = 300.dp,
+fun SimpleSettingList() {
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ){
-        Column(
-            modifier = Modifier
-                .padding(8.dp)
-                .height(it)
-        ) {
-            Text(
-                text = "1.  展示字体",
-                fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.zoolkuaile)
-                ),
-                style = MaterialTheme.typography.body1
-            )
-            Text(
-                text = "2. 展示字体",
-                fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.hanserf)
-                ),
-                style = MaterialTheme.typography.body1
-            )
-            Text(
-                text = "3. 展示字体",
-                fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.zoolkuaile)
-                ),
-                style = MaterialTheme.typography.body1
-            )
-            Text(
-                text = "4. 展示字体",
-                fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.hanserf)
-                ),
-                style = MaterialTheme.typography.body1
-            )
-        }
+        SentenceType()
+        FontType()
+        CardItemSpacer()
+        About()
     }
 }
 
+@Composable
+fun SentenceType(){
+    ItemTemplate("句子类型", R.drawable.build_black_24dp)
+}
 
+@Composable
+fun FontType(){
+    ItemTemplate("字体选择",R.drawable.text_format_black_24dp)
+}
+
+
+@Composable
+fun About() {
+    ItemTemplate("关于开发者",R.drawable.github)
+}
+
+@Composable
+fun TextSpacer() {
+    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+}
 
 @Composable
 fun CardItemSpacer() {
     Spacer(modifier = Modifier.padding(vertical = 10.dp))
 }
 
-@Composable
-fun TextListSpacer() {
-    Divider(thickness = 2.dp, modifier = Modifier.padding(top = 12.dp, bottom = 12.dp))
-}
-
-@Composable
-fun SubSettingTitle(titleName:String) {
-    Text(text = titleName,
-        fontWeight = FontWeight.W900,
-        style = MaterialTheme.typography.h6)
-}
 
 @Composable
 fun CardBackgroundStyle(content: @Composable()() -> Unit) {
@@ -280,56 +153,33 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        shape = RoundedCornerShape(8.dp),
-        color = Color(128, 198, 246),
-        elevation = 14.dp
+        color = Color.White
     ) {
         content()
     }
 }
 
 @Composable
-fun SettingItem(
-    itemName:String,
-    normalHeight: Dp = 0.dp,
-    expandHeight: Dp,
-    content: @Composable()(animatedHeight:Dp) -> Unit
-) {
-
-    val itemButtonState = remember{ mutableStateOf(false)}
-
-    val animatedHeight by animateDpAsState(
-        targetValue = (if(itemButtonState.value) expandHeight else normalHeight),
-        animationSpec = tween(500)
-    )
-
-    Column{
+fun ItemTemplate(
+    name:String,
+    icon:Int
+){
+    CardBackgroundStyle {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .clickable {}
+                .padding(15.dp),
             verticalAlignment = CenterVertically
         ){
-            SubSettingTitle(itemName)
+            Icon(painterResource(icon), null)
+            TextSpacer()
+            Text(name)
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End
             ) {
-                IconButton(onClick = {
-                    itemButtonState.value = !itemButtonState.value
-                },
-                    modifier = Modifier.align(Alignment.End)) {
-                    if(itemButtonState.value){
-                        Icon(painterResource(id = R.drawable.expand_less_black_24dp), null)
-                    } else {
-                        Icon(painterResource(id = R.drawable.expand_more_black_24dp), null)
-                    }
-                }
+                Icon(Icons.Filled.KeyboardArrowRight, null)
             }
         }
-        Spacer(Modifier.padding(vertical = 2.dp))
-        content(animatedHeight)
     }
 }
-
- */
-
