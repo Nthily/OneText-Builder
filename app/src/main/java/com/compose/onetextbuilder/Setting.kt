@@ -52,10 +52,11 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 
+/*
 
 @ExperimentalAnimationApi
 @Composable
-fun Setting(viewModel:UiState, navController: NavHostController) {
+fun Setting() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -223,30 +224,30 @@ fun FontFamily(){
                 .height(it)
         ) {
             Text(
-                text = "1. 展示字体",
+                text = "1.  展示字体",
                 fontFamily = androidx.compose.ui.text.font.FontFamily(
                     Font(R.font.zoolkuaile)
                 ),
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = "1. 展示字体",
+                text = "2. 展示字体",
+                fontFamily = androidx.compose.ui.text.font.FontFamily(
+                    Font(R.font.hanserf)
+                ),
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                text = "3. 展示字体",
                 fontFamily = androidx.compose.ui.text.font.FontFamily(
                     Font(R.font.zoolkuaile)
                 ),
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = "1. 展示字体",
+                text = "4. 展示字体",
                 fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.zoolkuaile)
-                ),
-                style = MaterialTheme.typography.body1
-            )
-            Text(
-                text = "1. 展示字体",
-                fontFamily = androidx.compose.ui.text.font.FontFamily(
-                    Font(R.font.zoolkuaile)
+                    Font(R.font.hanserf)
                 ),
                 style = MaterialTheme.typography.body1
             )
@@ -329,3 +330,6 @@ fun SettingItem(
         content(animatedHeight)
     }
 }
+
+ */
+

@@ -106,36 +106,30 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
 
     val items = listOf("Hitokoto", "我喜欢的", "设置")
 
-    Surface(
-        shape = CircleShape,
-        modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
-    ){
-        BottomNavigation(
-            elevation = 10.dp,
-            backgroundColor = Color.White
-        ) {
-            items.forEachIndexed { index, item ->
-                BottomNavigationItem(
-                    icon = {
-                        when(true) {
-                            index == 0 -> Icon(Icons.Filled.Home, contentDescription = null)
-                            index == 1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
-                            else -> Icon(Icons.Filled.Settings, contentDescription = null)
-                        }
-                    },
-                    //  label = { Text(item) },
-                    selected = viewModel.selectedItem == index,
-                    onClick = {
-                        viewModel.selectedItem = index
-                        // TODO:导航代码
-                        viewModel.currentPage = item
-                        if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
-                    },
-                    unselectedContentColor = Color(0xFFDBDDEB),
-                    selectedContentColor = Color(0xFF1234FD)
-                )
-            }
+    BottomNavigation(
+        elevation = 10.dp,
+        backgroundColor = Color.White
+    ) {
+        items.forEachIndexed { index, item ->
+            BottomNavigationItem(
+                icon = {
+                    when(true) {
+                        index == 0 -> Icon(Icons.Filled.Home, contentDescription = null)
+                        index == 1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
+                        else -> Icon(Icons.Filled.Settings, contentDescription = null)
+                    }
+                },
+                label = { Text(item) },
+                selected = viewModel.selectedItem == index,
+                onClick = {
+                    viewModel.selectedItem = index
+                    // TODO:导航代码
+                    viewModel.currentPage = item
+                    if(viewModel.currentPage != "Hitokoto") viewModel.flag = false
+                },
+                unselectedContentColor = Color(0xFFDBDDEB),
+                selectedContentColor = Color(0xFF1234FD)
+            )
         }
     }
 }
@@ -153,7 +147,7 @@ fun HomePage(viewModel: UiState,
             when(true) {
                 viewModel.selectedItem == 0 -> RefreshLayout(viewModel, context)
                 viewModel.selectedItem == 1 -> Favorite(viewModel, navController)
-                else -> Setting(viewModel, navController)
+                else -> Setting()
             }
         },
         bottomBar = {
@@ -227,7 +221,6 @@ fun Demo(viewModel: UiState)   {
             ){
                 Title()
                 CardContent(viewModel)
-
             }
             Row(modifier = Modifier.fillMaxSize(),verticalAlignment = Alignment.Bottom){
                 //Shiro()
