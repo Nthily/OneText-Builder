@@ -11,10 +11,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -43,6 +40,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -72,43 +70,31 @@ fun Setting(viewModel:UiState, navController: NavHostController) {
             elevation = 10.dp,
             border = BorderStroke(3.dp, Color(0xFF80C6F6))
         ){
-            LazyColumn() {
-                item{
-                    Column(
-                        modifier = Modifier.padding(15.dp)
-                    ) {
-                        UserInfo()
-                        CardItemSpacer()
-                        TextCategory(viewModel)
-                        UserInfo()
-                        UserInfo()
-                        UserInfo()
-                    }
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    modifier = Modifier.padding(15.dp)
+                ) {
+                    UserInfo()
+                    CardItemSpacer()
+                    TextCategory(viewModel)
                 }
             }
         }
     }
 }
 
-@Composable
-fun CardItemSpacer() {
-    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-}
 
 @Composable
 fun UserInfo(){
-    Column() {
+    Column {
         Text(text = "设置中心",
             fontWeight = FontWeight.W900,
             style = MaterialTheme.typography.h5)
         CardItemSpacer()
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            color = Color(0xFF80C6F6),
-            elevation = 14.dp
-        ) {
+        CardBackgroundStyle{
             Row(
                 modifier = Modifier.padding(10.dp)
             ){
@@ -130,10 +116,6 @@ fun UserInfo(){
 }
 
 
-@Composable
-fun TextListSpacer() {
-    Divider(thickness = 2.dp, modifier = Modifier.padding(top = 12.dp, bottom = 12.dp))
-}
 
 @ExperimentalAnimationApi
 @Composable
@@ -161,38 +143,44 @@ fun TextCategory(viewModel: UiState) {
             }
         }
         Spacer(Modifier.padding(vertical = 2.dp))
-        CategoryList(viewModel)
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            CategoryList(viewModel)
+        }
     }
 }
 
 @Composable
 fun CategoryList(viewModel: UiState){
     val normalModifier = 0.dp
-    val expandModifier = 700.dp
+    val expandModifier = 550.dp
 
     val animatedHeight by animateDpAsState(
         targetValue = (if(viewModel.textListSwitch) expandModifier else normalModifier),
-        animationSpec = tween(500)
+        animationSpec = tween(800)
+    )
+    val textType = listOf(
+        "动漫",
+        "漫画",
+        "游戏",
+        "文学",
+        "原创",
+        "网络",
+        "其他",
+        "影视",
+        "诗词",
+        "网易云",
+        "哲学",
+        "抖机灵"
     )
 
     Column(
         modifier = Modifier
             .padding(8.dp)
-
+            .height(animatedHeight)
+            .verticalScroll(rememberScrollState())
     ) {
-        val textType = listOf(
-            "动漫",
-            "漫画",
-            "游戏",
-            "文学",
-            "原创",
-            "网络",
-            "其他",
-            "影视",
-            "诗词",
-            "网易云",
-            "哲学",
-            "抖机灵")
 
         textType.forEach{
             Row(
@@ -208,11 +196,37 @@ fun CategoryList(viewModel: UiState){
                         checked = checkedState.value,
                         onCheckedChange = { checkedState.value = it },
                         colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFF80C6F6)),
-                        modifier = Modifier.align(Alignment.End)
+                        modifier = Modifier.align(Alignment.End),
+                        interactionSource = MutableInteractionSource()
                     )
                 }
             }
             TextListSpacer()
         }
+    }
+}
+
+
+@Composable
+fun CardItemSpacer() {
+    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+}
+
+@Composable
+fun TextListSpacer() {
+    Divider(thickness = 2.dp, modifier = Modifier.padding(top = 12.dp, bottom = 12.dp))
+}
+
+@Composable
+fun CardBackgroundStyle(content: @Composable()() -> Unit) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        shape = RoundedCornerShape(8.dp),
+        color = Color(128, 198, 246),
+        elevation = 14.dp
+    ) {
+        content()
     }
 }
