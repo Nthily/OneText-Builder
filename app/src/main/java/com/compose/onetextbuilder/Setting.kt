@@ -92,7 +92,7 @@ fun UserInfo(){
                 Text(
                     text = "香辣鸡腿堡",
                     fontWeight = FontWeight.W900,
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.h6
                 )
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
@@ -133,7 +133,7 @@ fun FontType(){
 
 @Composable
 fun About() {
-    ItemTemplate("关于开发者",R.drawable.github)
+    ItemTemplate("关于项目（欢迎 Star）",R.drawable.github)
 }
 
 @Composable
@@ -153,7 +153,8 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        color = Color.White
+        color = Color.White,
+        elevation = 5.dp
     ) {
         content()
     }
@@ -173,7 +174,10 @@ fun ItemTemplate(
         ){
             Icon(painterResource(icon), null)
             TextSpacer()
-            Text(name)
+            Text(
+                text = name,
+                fontWeight = FontWeight.W700
+            )
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.End
