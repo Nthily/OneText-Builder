@@ -96,7 +96,7 @@ fun UserInfo(){
                 )
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
-                    text = "￥114514",
+                    text = "￥80495",
                     fontWeight = FontWeight.W900,
                     style = MaterialTheme.typography.body2,
                     color = Color.White

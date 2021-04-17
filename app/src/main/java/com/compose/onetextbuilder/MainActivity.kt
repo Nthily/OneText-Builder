@@ -59,7 +59,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.nthily.simpletextfield.SearchTextField
 import kotlinx.coroutines.delay
+
 
 class MainActivity : ComponentActivity() {
 
@@ -141,7 +143,6 @@ fun BottomNavigation(viewModel: UiState, navController: NavHostController) {
 fun HomePage(viewModel: UiState,
              navController: NavHostController,
              context: Context) {
-
     Scaffold(
         content = {
             when(true) {

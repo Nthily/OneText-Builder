@@ -67,5 +67,5 @@ dependencies {
 
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha09"
 
-    
+    implementation 'com.github.Nthily:SimpleTextField:v1.0.1-alpha'
 }
