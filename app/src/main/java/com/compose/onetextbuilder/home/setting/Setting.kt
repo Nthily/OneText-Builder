@@ -174,6 +174,7 @@ fun ItemTemplate(
         Row(
             modifier = Modifier
                 .clickable {
+                    Log.d(TAG, "你按了好几下啊实打实的阿松大阿松大阿松大")
                     when(true) {
                         name == "字体选择" -> {
                             viewModel.requestSelectFont = true

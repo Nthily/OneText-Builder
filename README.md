@@ -8,7 +8,7 @@
 ## 目前进度
 
 
-| screenshot | screenshot |
-| ---------- | ---------- |
-| ![](screenshots/demo.png) | ![](screenshots/demo2.png) |
+| screenshot | screenshot | screenshot |
+| ---------- | ---------- | ---------- |
+| ![](screenshots/demo.png) | ![](screenshots/demo2.png) | ![](screenshots/demo3.png) |
 
