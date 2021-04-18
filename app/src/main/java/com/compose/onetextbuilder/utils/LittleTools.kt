@@ -1,4 +1,4 @@
-package com.compose.onetextbuilder
+package com.compose.onetextbuilder.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
