@@ -1,8 +1,5 @@
-package com.compose.onetextbuilder
+package com.compose.onetextbuilder.utils
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset

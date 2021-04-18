@@ -170,7 +170,9 @@ fun ItemTemplate(
     CardBackgroundStyle {
         Row(
             modifier = Modifier
-                .clickable {}
+                .clickable {
+
+                }
                 .padding(15.dp),
             verticalAlignment = CenterVertically
         ){
