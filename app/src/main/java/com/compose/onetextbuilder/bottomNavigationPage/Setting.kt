@@ -117,7 +117,6 @@ fun SimpleSettingList() {
         SentenceType()
         Divider(thickness = 1.dp)
         FontType()
-        Divider(thickness = 1.dp)
         CardItemSpacer()
         About()
     }
