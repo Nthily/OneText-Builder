@@ -1,4 +1,4 @@
-package com.compose.onetextbuilder
+package com.compose.onetextbuilder.home.favorite
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
@@ -25,23 +25,37 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.compose.onetextbuilder.R
+import com.compose.onetextbuilder.UiState
 import com.compose.onetextbuilder.home.CardButtons
+import com.compose.onetextbuilder.home.Tags
 import com.nthily.simpletextfield.SearchTextField
 
 
 @ExperimentalAnimationApi
 @Composable
-fun Favorite(viewModel:UiState, navController: NavHostController) {
+fun Favorite(viewModel: UiState, navController: NavHostController) {
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-    ){
-
-        item{
-            TopInfo()
+    ) {
+        TopInfo()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(20.dp)
+        ){
+            com.compose.onetextbuilder.components.Tags()
         }
-        item{
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 45.dp)
+        ){
+
             SentenceCardTemplate(viewModel)
             SentenceCardTemplate(viewModel)
             SentenceCardTemplate(viewModel)
@@ -82,7 +96,7 @@ fun TopInfo() {
             .animateContentSize(),
         placeholder = {
             Text("搜索")
-        })
+        },)
     }
 }
 

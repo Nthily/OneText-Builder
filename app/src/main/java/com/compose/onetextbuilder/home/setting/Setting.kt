@@ -78,13 +78,42 @@ fun UserInfo(){
 @Composable
 fun SimpleSettingList() {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
     ){
-        SentenceType()
-        Divider(thickness = 1.dp)
-        FontType()
+        Text(
+            text = "基本设置",
+            fontWeight = FontWeight.W900,
+            modifier = Modifier
+                .padding(8.dp)
+        )
+        Surface(
+            shape = RoundedCornerShape(10.dp),
+            color = Color.White,
+            elevation = 14.dp
+
+        ) {
+            Column() {
+                SentenceType()
+                FontType()
+            }
+        }
         CardItemSpacer()
-        About()
+        Text(
+            text = "其他",
+            fontWeight = FontWeight.W900,
+            modifier = Modifier
+                .padding(8.dp)
+        )
+        Surface(
+            shape = RoundedCornerShape(10.dp),
+            color = Color.White,
+            elevation = 14.dp
+
+        ) {
+            About()
+        }
     }
 }
 
@@ -142,8 +171,14 @@ fun ItemTemplate(
                 .padding(15.dp),
             verticalAlignment = CenterVertically
         ){
-            Icon(painterResource(icon), null,
-                modifier = modifier)
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFFEDEDED)
+            ) {
+                Icon(painterResource(icon), null,
+                    modifier = modifier
+                        .padding(10.dp))
+            }
             TextSpacer()
             Text(
                 text = name,

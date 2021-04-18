@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.compose.onetextbuilder.*
 import com.compose.onetextbuilder.R
+import com.compose.onetextbuilder.home.favorite.Favorite
 import com.compose.onetextbuilder.home.setting.Setting
 import com.compose.onetextbuilder.utils.SwipeToRefreshLayout
 import kotlinx.coroutines.delay
