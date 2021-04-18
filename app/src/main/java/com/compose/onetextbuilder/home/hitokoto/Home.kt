@@ -208,23 +208,6 @@ fun HitokotoCard(viewModel: UiState)   {
     }
 }
 
-
-@Composable
-fun Tags(viewModel: UiState) {
-    Row{
-        Surface(
-            modifier = Modifier
-                .padding(12.dp),
-            color = Color.Gray,
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text("默认", modifier = Modifier
-                .clickable {}
-                .padding(5.dp))
-        }
-    }
-}
-
 @Composable
 fun Title() {
     Column(

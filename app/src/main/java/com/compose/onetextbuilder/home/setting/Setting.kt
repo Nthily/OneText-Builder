@@ -174,11 +174,9 @@ fun ItemTemplate(
         Row(
             modifier = Modifier
                 .clickable {
-                    Log.d(TAG, "你按了好几下啊实打实的阿松大阿松大阿松大")
-                    when(true) {
-                        name == "字体选择" -> {
-                            viewModel.requestSelectFont = true
-                        }
+                    Log.d(TAG, "你按了 $name")
+                    when(!viewModel.inSubInterface) {
+                        name == "字体选择" -> viewModel.openFontSelection()
                     }
                 }
                 .padding(15.dp),

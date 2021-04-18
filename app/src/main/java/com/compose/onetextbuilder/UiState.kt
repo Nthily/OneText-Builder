@@ -15,9 +15,20 @@ class UiState: ViewModel() {
     var selectedItem by mutableStateOf(0)
 
     var currentPage by mutableStateOf("hitokoto")
-
     var currentFont by mutableStateOf("默认字体")
 
+
+    var inSubInterface by mutableStateOf(false)
     var requestSelectFont by mutableStateOf(false)
 
+
+    fun openFontSelection() {
+        requestSelectFont = true
+        inSubInterface = true
+    }
+
+    fun closeFontSelection() {
+        requestSelectFont = false
+        inSubInterface = false
+    }
 }

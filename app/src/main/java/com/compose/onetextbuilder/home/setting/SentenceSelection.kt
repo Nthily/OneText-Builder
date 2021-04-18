@@ -55,97 +55,20 @@ import com.compose.onetextbuilder.utils.percentOffsetX
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
-
 @Composable
-fun FontSelection(viewModel: UiState) {
+fun SentenceSelection(
+    viewModel:UiState
+) {
     val percentOffsetX = animateFloatAsState(if (viewModel.requestSelectFont) 0f else 1f)
     Box(
         modifier = Modifier.percentOffsetX(percentOffsetX.value)
     ){
         Scaffold(
             content = {
-                FontList(viewModel)
+
             },
             backgroundColor = Color(0xFFF4F6FC),
             topBar = { FontListTopBar(viewModel) }
         )
-    }
-}
-
-@Composable
-fun FontListTopBar(
-    viewModel: UiState
-) {
-    TopAppBar(
-        title = {},
-        navigationIcon = {
-            IconButton(onClick = {
-                viewModel.closeFontSelection()
-            }) {
-                Icon(Icons.Filled.ArrowBack, null)
-            }
-        },
-        backgroundColor = Color(0xFFF4F6FC)
-    )
-}
-
-
-@Composable
-fun FontList(viewModel: UiState) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(12.dp)
-    ){
-        Text(
-            text = "字体选择",
-            fontWeight = FontWeight.W900,
-            modifier = Modifier
-                .padding(8.dp)
-        )
-        Surface(
-            shape = RoundedCornerShape(10.dp),
-            color = Color.White,
-            elevation = 14.dp
-        ) {
-            Column{
-                FontTemplate("默认字体", null, viewModel)
-                FontTemplate("Zool Kuaile", FontFamily(
-                    Font(R.font.zoolkuaile)
-                ),viewModel)
-            }
-        }
-    }
-}
-
-@Composable
-fun FontTemplate(
-    fontName:String,
-    fontFamily: FontFamily? = null,
-    viewModel:UiState
-) {
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(55.dp)
-            .clickable {
-                viewModel.currentFont = fontName
-            }
-            .background(Color.White)
-            .padding(15.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = fontName,
-            fontWeight = FontWeight.W900,
-            fontFamily = fontFamily
-        )
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.End
-        ) {
-            if(fontName == viewModel.currentFont)  Icon(Icons.Filled.Done, null)
-        }
     }
 }
