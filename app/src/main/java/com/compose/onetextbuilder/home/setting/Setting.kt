@@ -1,5 +1,7 @@
 package com.compose.onetextbuilder.home.setting
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -19,14 +21,15 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import com.compose.onetextbuilder.R
+import com.compose.onetextbuilder.UiState
 
 @Composable
-fun Setting(){
+fun Setting(viewModel:UiState){
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
         UserInfo()
-        SimpleSettingList()
+        SimpleSettingList(viewModel)
     }
 }
 
@@ -76,7 +79,9 @@ fun UserInfo(){
 
 
 @Composable
-fun SimpleSettingList() {
+fun SimpleSettingList(
+    viewModel: UiState
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -95,8 +100,8 @@ fun SimpleSettingList() {
 
         ) {
             Column() {
-                SentenceType()
-                FontType()
+                SentenceType(viewModel)
+                FontType(viewModel)
             }
         }
         CardItemSpacer()
@@ -112,25 +117,27 @@ fun SimpleSettingList() {
             elevation = 14.dp
 
         ) {
-            About()
+            About(viewModel)
         }
     }
 }
 
 @Composable
-fun SentenceType(){
-    ItemTemplate("句子类型", R.drawable.sell_black_24dp)
+fun SentenceType(viewModel: UiState){
+    ItemTemplate("句子类型", R.drawable.sell_black_24dp,
+    viewModel = viewModel)
 }
 
 @Composable
-fun FontType(){
+fun FontType(viewModel: UiState){
     ItemTemplate("字体选择", R.drawable.text_format_black_24dp,
-    modifier = Modifier.scale(1.4f))
+    modifier = Modifier.scale(1.4f),viewModel)
 }
 
 @Composable
-fun About() {
-    ItemTemplate("关于项目（欢迎 Star）", R.drawable.github)
+fun About(viewModel: UiState) {
+    ItemTemplate("关于项目（欢迎 Star）", R.drawable.github,
+    viewModel = viewModel)
 }
 
 @Composable
@@ -160,13 +167,18 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
 fun ItemTemplate(
     name:String,
     icon:Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel:UiState
 ){
     CardBackgroundStyle {
         Row(
             modifier = Modifier
                 .clickable {
-
+                    when(true) {
+                        name == "字体选择" -> {
+                            viewModel.requestSelectFont = true
+                        }
+                    }
                 }
                 .padding(15.dp),
             verticalAlignment = CenterVertically

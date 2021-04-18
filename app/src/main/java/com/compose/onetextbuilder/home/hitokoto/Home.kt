@@ -1,4 +1,4 @@
-package com.compose.onetextbuilder.home
+package com.compose.onetextbuilder.home.hitokoto
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -127,7 +127,7 @@ fun HomePage(viewModel: UiState,
             when(true) {
                 viewModel.selectedItem == 0 -> RefreshLayout(viewModel, context)
                 viewModel.selectedItem == 1 -> Favorite(viewModel, navController)
-                else -> Setting()
+                else -> Setting(viewModel)
             }
         },
         bottomBar = {

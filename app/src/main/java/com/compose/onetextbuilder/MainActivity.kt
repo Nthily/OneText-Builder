@@ -9,7 +9,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import com.compose.onetextbuilder.ui.theme.OneTextBuilderTheme
-import com.compose.onetextbuilder.home.Home
+import com.compose.onetextbuilder.home.hitokoto.Home
+import com.compose.onetextbuilder.home.setting.FontSelection
 
 
 class MainActivity : ComponentActivity() {
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             OneTextBuilderTheme {
                 Home(viewModel)
+                FontSelection(viewModel)
             }
         }
     }

@@ -16,7 +16,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.draw.scale
@@ -27,8 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.compose.onetextbuilder.R
 import com.compose.onetextbuilder.UiState
-import com.compose.onetextbuilder.home.CardButtons
-import com.compose.onetextbuilder.home.Tags
+import com.compose.onetextbuilder.home.hitokoto.CardButtons
 import com.nthily.simpletextfield.SearchTextField
 
 
