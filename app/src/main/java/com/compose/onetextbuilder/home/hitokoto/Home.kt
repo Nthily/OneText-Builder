@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.compose.onetextbuilder.*
 import com.compose.onetextbuilder.R
+import com.compose.onetextbuilder.home.setting.Setting
 import com.compose.onetextbuilder.utils.SwipeToRefreshLayout
 import kotlinx.coroutines.delay
 
@@ -166,7 +167,7 @@ fun RefreshLayout(viewModel:UiState,context: Context) {
                 )
             }
         }) {
-        Demo(viewModel)
+        HitokotoCard(viewModel)
     }
 }
 
@@ -176,7 +177,7 @@ fun RefreshLayout(viewModel:UiState,context: Context) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
-fun Demo(viewModel: UiState)   {
+fun HitokotoCard(viewModel: UiState)   {
 
     Column(
         modifier = Modifier
