@@ -225,7 +225,7 @@ fun Demo(viewModel: UiState)   {
             }
             Row(modifier = Modifier.fillMaxSize(),verticalAlignment = Alignment.Bottom){
                 //Shiro()
-                Buttons(viewModel)
+                CardButtons(viewModel)
             }
         }
     }
@@ -313,8 +313,7 @@ fun CardContent(viewModel:UiState) {
                     }
                 },
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .padding(start = 20.dp, end = 20.dp),
                 style = MaterialTheme.typography.subtitle2,
             )
         }
@@ -333,7 +332,7 @@ fun CardContent(viewModel:UiState) {
 
 
 @Composable
-fun Buttons(viewModel: UiState) {
+fun CardButtons(viewModel: UiState) {
     Row(
         modifier = Modifier
             .fillMaxSize(),

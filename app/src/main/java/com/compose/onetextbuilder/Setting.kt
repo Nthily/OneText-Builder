@@ -46,6 +46,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -70,7 +71,7 @@ fun UserInfo(){
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        shape = RoundedCornerShape(bottomStart = 65.dp, bottomEnd = 65.dp),
+        shape = RoundedCornerShape(bottomStart = 45.dp, bottomEnd = 45.dp),
         elevation = 14.dp
     ) {
         Row(
@@ -96,7 +97,7 @@ fun UserInfo(){
                 )
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
-                    text = "￥80495",
+                    text = "已看了 5220 句",
                     fontWeight = FontWeight.W900,
                     style = MaterialTheme.typography.body2,
                     color = Color.White
@@ -114,7 +115,9 @@ fun SimpleSettingList() {
         modifier = Modifier.fillMaxWidth()
     ){
         SentenceType()
+        Divider(thickness = 1.dp)
         FontType()
+        Divider(thickness = 1.dp)
         CardItemSpacer()
         About()
     }
@@ -122,14 +125,14 @@ fun SimpleSettingList() {
 
 @Composable
 fun SentenceType(){
-    ItemTemplate("句子类型", R.drawable.build_black_24dp)
+    ItemTemplate("句子类型", R.drawable.sell_black_24dp)
 }
 
 @Composable
 fun FontType(){
-    ItemTemplate("字体选择",R.drawable.text_format_black_24dp)
+    ItemTemplate("字体选择",R.drawable.text_format_black_24dp,
+    modifier = Modifier.scale(1.4f))
 }
-
 
 @Composable
 fun About() {
@@ -153,8 +156,7 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        color = Color.White,
-        elevation = 5.dp
+        color = Color.White
     ) {
         content()
     }
@@ -163,7 +165,8 @@ fun CardBackgroundStyle(content: @Composable()() -> Unit) {
 @Composable
 fun ItemTemplate(
     name:String,
-    icon:Int
+    icon:Int,
+    modifier: Modifier = Modifier
 ){
     CardBackgroundStyle {
         Row(
@@ -172,7 +175,8 @@ fun ItemTemplate(
                 .padding(15.dp),
             verticalAlignment = CenterVertically
         ){
-            Icon(painterResource(icon), null)
+            Icon(painterResource(icon), null,
+                modifier = modifier)
             TextSpacer()
             Text(
                 text = name,
