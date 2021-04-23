@@ -50,7 +50,7 @@ import com.compose.onetextbuilder.*
 import com.compose.onetextbuilder.R
 import com.compose.onetextbuilder.home.favorite.Favorite
 import com.compose.onetextbuilder.home.setting.Setting
-import com.compose.onetextbuilder.utils.SwipeToRefreshLayout
+import com.compose.onetextbuilder.utils.*
 import kotlinx.coroutines.delay
 
 
@@ -61,8 +61,9 @@ import kotlinx.coroutines.delay
 fun Home(viewModel:UiState) {
     val navController = rememberNavController()
     val context = LocalContext.current
-    GlobalScope.launch (Dispatchers.IO){
-        if(getNetWorkState(context, viewModel)) getOneText(viewModel)
+
+    if(getNetWorkState(context, viewModel)){
+        GetOneText(viewModel)
     }
 
     NavHost(navController, startDestination = "hitokoto") {
@@ -143,14 +144,19 @@ fun HomePage(viewModel: UiState,
 @Composable
 fun RefreshLayout(viewModel:UiState,context: Context) {
 
+    val composableScope = rememberCoroutineScope()
+
     SwipeToRefreshLayout(
         refreshingState = viewModel.flag,
         onRefresh = {
             viewModel.flag = true
 
             if(getNetWorkState(context, viewModel)) {
-                getOneText(viewModel)
+                composableScope.launch {
+                    viewModel.result = v1Function(viewModel)
+                }
             }
+
             else {
                 viewModel.result = "暂时还没有网络连接哟~"
                 GlobalScope.launch(Dispatchers.IO){

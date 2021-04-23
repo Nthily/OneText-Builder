@@ -1,22 +1,20 @@
-package com.compose.onetextbuilder
+package com.compose.onetextbuilder.utils
 
 
-import android.content.BroadcastReceiver
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.content.ContextCompat.startActivity
+import com.compose.onetextbuilder.UiState
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -27,11 +25,13 @@ import java.net.URL
 import kotlin.random.Random
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @RequiresApi(Build.VERSION_CODES.N)
 
-
-fun getOneText(viewModel:UiState) {
-    GlobalScope.launch(Dispatchers.Main){
+@Composable
+fun GetOneText(viewModel: UiState) {
+    val composableScope = rememberCoroutineScope()
+    composableScope.launch{
         viewModel.result = v1Function(viewModel)
         viewModel.enableRed = false
     }
